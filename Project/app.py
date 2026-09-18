@@ -259,12 +259,21 @@ elif page == "🗺️ Map":
     df_map = df_processed.copy()
     if 'Damage_Potential' in df_map.columns:
         df_map["Risk_Label"] = df_map.Risk_Category.map({0: "Low", 1: "Moderate", 2: "High"})
-        fig = px.scatter_mapbox(
-            df_map, lat="Latitude", lon="Longitude",
-            color="Risk_Label", size="Damage_Potential", size_max=15,
-            zoom=1, mapbox_style="carto-positron",
-            hover_data=features
-        )
+        if hasattr(px, "scatter_map"):
+            fig = px.scatter_map(
+                df_map, lat="Latitude", lon="Longitude",
+                color="Risk_Label", size="Damage_Potential", size_max=15,
+                zoom=1, map_style="carto-positron",
+                hover_data=features
+            )
+        else:
+            fig = px.scatter_mapbox(
+                df_map, lat="Latitude", lon="Longitude",
+                color="Risk_Label", size="Damage_Potential", size_max=15,
+                zoom=1, mapbox_style="carto-positron",
+                hover_data=features
+            )
+
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("### Sample Data")
         st.dataframe(df_map[features + ["Damage_Potential", "Risk_Label"]].head(10))
