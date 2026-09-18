@@ -7,7 +7,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 
 # Load preprocessed data with one-hot encoded columns
-df = pd.read_csv("data/train_data.csv")
+df = pd.read_csv("data/train_database.csv")
 
 # Select feature columns (original numeric + one-hot encoded categorical)
 features = [
